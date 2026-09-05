@@ -11,9 +11,9 @@ License: MIT
 import argparse
 import csv
 import json
-import math
+import os
 import sys
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any
 
 
 def calculate_metrics(**kwargs) -> Dict[str, Any]:
@@ -66,10 +66,16 @@ def process_single(args) -> None:
 
 
 def process_batch(input_csv: str, output_csv: str) -> None:
+    if not os.path.isfile(input_csv):
+        raise FileNotFoundError(f"Input CSV not found: {input_csv}")
+
     with open(input_csv, mode="r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         fieldnames = list(reader.fieldnames or [])
         rows = list(reader)
+
+    if not fieldnames:
+        raise ValueError(f"Input CSV has no headers: {input_csv}")
 
     out_fields = fieldnames + ["score", "classification", "clinical_recommendation"]
     out_rows = []
@@ -81,6 +87,10 @@ def process_batch(input_csv: str, output_csv: str) -> None:
         row_dict["classification"] = calc_res["classification"]
         row_dict["clinical_recommendation"] = calc_res["clinical_recommendation"]
         out_rows.append(row_dict)
+
+    out_dir = os.path.dirname(output_csv)
+    if out_dir and not os.path.isdir(out_dir):
+        os.makedirs(out_dir, exist_ok=True)
 
     with open(output_csv, mode="w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=out_fields)
