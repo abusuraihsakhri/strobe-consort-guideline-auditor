@@ -201,12 +201,12 @@
       {
         "id": "16",
         "title": "Sample size",
-        "prompt": "Explain sample size determination"
+        "prompt": "Explain sample-size assumptions, interim analyses and any stopping rules"
       },
       {
         "id": "17",
         "title": "Random sequence",
-        "prompt": "Describe random sequence generation"
+        "prompt": "Describe random sequence generation, randomisation type and restrictions"
       },
       {
         "id": "18",
@@ -216,7 +216,7 @@
       {
         "id": "19",
         "title": "Randomisation implementation",
-        "prompt": "Explain who generated, enrolled and assigned"
+        "prompt": "State whether staff enrolling or assigning participants could access the allocation sequence"
       },
       {
         "id": "20",
@@ -231,7 +231,7 @@
       {
         "id": "22",
         "title": "Participant flow",
-        "prompt": "Report numbers randomised, treated and analysed by group"
+        "prompt": "Give per-group randomised, treated, analysed and post-randomisation exclusions"
       },
       {
         "id": "23",
@@ -251,7 +251,7 @@
       {
         "id": "26",
         "title": "Outcome results",
-        "prompt": "Report participant denominators, results and precision by group"
+        "prompt": "Report per-group outcome denominators, estimates, precision and absolute/relative effects as appropriate"
       },
       {
         "id": "27",
@@ -271,7 +271,7 @@
       {
         "id": "30",
         "title": "Limitations",
-        "prompt": "Discuss sources of bias, imprecision and generalisability"
+        "prompt": "Discuss bias, imprecision, generalisability and multiplicity of analyses"
       }
     ]
   }
