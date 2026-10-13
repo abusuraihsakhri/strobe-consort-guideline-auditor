@@ -1,236 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strobe Consort Guideline Auditor — Operations Console</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #090d16;
-            --card: #111827;
-            --border: #1f293d;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.25);
-            --text: #f3f4f6;
-            --text-muted: #9ca3af;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            padding: 2rem;
-            min-height: 100vh;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .header-title h1 { font-size: 1.6rem; font-weight: 700; color: #fff; }
-        .header-title p { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem; }
-        .badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: var(--accent-glow);
-            color: var(--accent);
-            border: 1px solid var(--accent);
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 1.5rem;
-        }
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        .card h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; }
-        input, select, textarea {
-            width: 100%;
-            padding: 0.65rem 0.9rem;
-            background: #0d1322;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: #fff;
-            font-family: inherit;
-            font-size: 0.9rem;
-        }
-        input:focus, textarea:focus { outline: none; border-color: var(--accent); }
-        .btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 0.7rem 1.4rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
-        }
-        .btn:hover { background: #2563eb; }
-        .terminal {
-            background: #060911;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: #10b981;
-            height: 380px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-        }
-        .metrics-bar {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .metric-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-        }
-        .metric-val { font-size: 1.4rem; font-weight: 700; color: #fff; margin-top: 0.25rem; }
-        .metric-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>STROBE / CONSORT Reporting Checklist Auditor</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#192c3c;background:#f5f7fb;line-height:1.5}
+*{box-sizing:border-box}body{margin:0}a{color:#1552a0}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #f3a129;outline-offset:2px}
+header{background:#10304b;color:#fff;padding:1.6rem max(1rem,calc((100vw - 1120px)/2))}
+header h1{font-size:clamp(1.4rem,3vw,2rem);margin:0}header p{margin:.4rem 0 0;color:#d0e3f4}
+main{max-width:1120px;margin:1.5rem auto 3rem;padding:0 1rem}
+.panel{background:white;border:1px solid #d6e0ea;border-radius:12px;padding:1.1rem;margin-bottom:1rem;box-shadow:0 2px 8px #0b25300a}
+.toolbar{display:flex;gap:.8rem;flex-wrap:wrap;align-items:end}.field{display:flex;flex-direction:column;gap:.25rem;min-width:190px;flex:1}
+label{font-weight:600;font-size:.9rem}input,select,textarea,button{font:inherit}input[type=text],select,textarea{border:1px solid #9eafbd;border-radius:7px;padding:.58rem;background:#fff;color:#193349;width:100%}
+button{border:1px solid #175484;border-radius:7px;background:#155b91;color:#fff;padding:.55rem .85rem;cursor:pointer}button:hover{background:#0c456f}.secondary{background:white;color:#174b74}.secondary:hover{background:#e8f2fc}.danger{background:white;border-color:#ad4c4c;color:#a33434}.danger:hover{background:#fff0f0}
+.toolbar .actions{display:flex;gap:.5rem;flex-wrap:wrap}small,.muted{color:#536578}#source{font-size:.86rem}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem}
+.stat{padding:.8rem;border:1px solid #d6e0ea;border-radius:8px;background:#f8fafc}.stat b{font-size:1.45rem;display:block}.stat span{font-size:.78rem;color:#455e72}
+progress{width:100%;height:13px;accent-color:#207a62}h2{font-size:1.12rem;margin:.15rem 0 .6rem}
+.section{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:#375675;margin:1.5rem 0 .5rem;font-weight:700}
+.item{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:.7rem;padding:1rem 0;border-bottom:1px solid #e3e8ee}
+.item:last-child{border-bottom:0}.item h3{font-size:1rem;margin:0 0 .25rem}.item p{margin:0 0 .5rem;color:#4d6375;font-size:.91rem}
+.item .details{display:grid;grid-template-columns:minmax(0,160px) minmax(0,1fr);gap:.5rem}.item select{align-self:start}
+.item textarea{min-height:56px;resize:vertical;font-size:.88rem}
+.notes{font-size:.8rem;color:#455e72;margin-top:.3rem}
+#feedback{min-height:1.3rem;font-weight:600;color:#993c1f}#feedback.ok{color:#16684c}
+#fileInput{display:none}
+footer{font-size:.85rem;color:#52677a;margin-top:1.5rem}
+@media(max-width:700px){.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.item{grid-template-columns:1fr}.item .details{grid-template-columns:1fr}.toolbar .field{flex-basis:100%}}
+@media print{header{padding:1rem}body{background:white}.panel{box-shadow:none;border:0;padding:0}.controls,.actions,#feedback{display:none}.item{break-inside:avoid}.item textarea{min-height:30px}.item select{appearance:none;border:0;padding:0}main{max-width:none}}
+</style>
 </head>
 <body>
-
-    <div class="header">
-        <div class="header-title">
-            <h1>Strobe Consort Guideline Auditor</h1>
-            <p>Domain: Clinical & Cryptographic AI | Standard: CAP / CLSI / NIST Standards | LabMind-Atlas Architecture</p>
-        </div>
-        <div>
-            <span class="badge">Air-Gapped Active</span>
-            <span class="badge" style="background: rgba(16,185,129,0.2); color: #10b981; border-color: #10b981;">Zero-PHI Guard Active</span>
-        </div>
-    </div>
-
-    <div class="metrics-bar">
-        <div class="metric-box">
-            <div class="metric-label">System Status</div>
-            <div class="metric-val" style="color: var(--success);" id="m-status">OPTIMAL</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-label">Tasks Processed</div>
-            <div class="metric-val" id="m-tasks">142</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-label">Audit Blocks Signed</div>
-            <div class="metric-val" id="m-audit">142</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-label">PHI Interceptions</div>
-            <div class="metric-val" style="color: var(--accent);" id="m-phi">0</div>
-        </div>
-    </div>
-
-    <div class="grid">
-        <div class="card">
-            <h2>⚙️ Dispatch Distributed Component Audit</h2>
-            <div class="form-group">
-                <label>Task / Sample ID</label>
-                <input type="text" id="task_id" value="TASK-2026-LIVE-01">
-            </div>
-            <div class="form-group">
-                <label>Target Identifier</label>
-                <input type="text" id="target_id" value="SPECIMEN-ALPHA-77">
-            </div>
-            <div class="form-group">
-                <label>Primary Measurement / Value</label>
-                <input type="number" id="primary_metric" value="29.4" step="0.1">
-            </div>
-            <div class="form-group">
-                <label>Secondary Metric / Kinetic Index</label>
-                <input type="number" id="secondary_metric" value="14.8" step="0.1">
-            </div>
-            <div class="form-group">
-                <label>Status / Phenotype Descriptor</label>
-                <input type="text" id="status_descriptor" value="DISCORDANT_ANOMALY">
-            </div>
-            <div class="form-group">
-                <label><input type="checkbox" id="is_critical" checked> Trigger Emergency / Critical Flag</label>
-            </div>
-            <button class="btn" onclick="runAudit()">Execute Distributed Component Audit</button>
-        </div>
-
-        <div class="card">
-            <h2>📊 Real-Time Consensus Dossier & Audit Log</h2>
-            <div class="terminal" id="outputConsole">// Strobe Consort Guideline Auditor Operations Console Ready
-// Connection established with Air-Gapped Supervisor
-// Cryptographic HMAC-SHA256 audit ledger loaded.
-// Ready for live task payload dispatch...</div>
-        </div>
-    </div>
-
-    <script>
-        async function runAudit() {
-            const consoleEl = document.getElementById('outputConsole');
-            consoleEl.innerText = "// Dispatching task across specialized workers...
-// Invoking InvariantQCWorker, SafetyEscalationWorker, ProtocolWorker...";
-
-            const payload = {
-                task_id: document.getElementById('task_id').value,
-                target_identifier: document.getElementById('target_id').value,
-                primary_metric: parseFloat(document.getElementById('primary_metric').value),
-                secondary_metric: parseFloat(document.getElementById('secondary_metric').value),
-                status_descriptor: document.getElementById('status_descriptor').value,
-                is_critical_flag: document.getElementById('is_critical').checked
-            };
-
-            try {
-                const res = await fetch('/api/audit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                consoleEl.innerText = JSON.stringify(data, null, 2);
-                document.getElementById('m-tasks').innerText = parseInt(document.getElementById('m-tasks').innerText) + 1;
-                document.getElementById('m-audit').innerText = parseInt(document.getElementById('m-audit').innerText) + 1;
-            } catch (err) {
-                consoleEl.innerText = "// Offline / Simulation Output:\n" + JSON.stringify({
-                    dossier_id: "DOSSIER-SIM-" + Math.floor(Math.random()*10000),
-                    system: "strobe-consort-guideline-auditor",
-                    domain: "Clinical & Cryptographic AI",
-                    task_id: payload.task_id,
-                    overall_urgency: payload.is_critical_flag ? "CRITICAL_STAT_PANIC" : "ELEVATED_RISK",
-                    integrity_status: "DISCORDANT_ANOMALY",
-                    alerts: [
-                        { worker: "InvariantQCWorker", alert: "Primary metric exceeds upper reference bound" },
-                        { worker: "SafetyEscalationWorker", alert: "Critical emergency interlock flag active" }
-                    ],
-                    audit_hash: "HMAC_SHA256_e83f9a72b941d6c381f9"
-                }, null, 2);
-            }
-        }
-    </script>
+<header><h1>STROBE / CONSORT Reporting Checklist Auditor</h1><p>Reviewer-led checklist for transparent manuscript reporting. No automated interpretation or quality grading.</p></header>
+<main>
+<section class="panel controls" aria-label="Review setup">
+<div class="toolbar">
+<div class="field"><label for="guideline">Reporting guideline</label><select id="guideline"><option value="strobe">STROBE (22 items)</option><option value="consort">CONSORT 2025 (30 items)</option></select></div>
+<div class="field"><label for="manuscript">Manuscript label (no patient data)</label><input id="manuscript" type="text" maxlength="120" placeholder="e.g., Cohort study draft v2"></div>
+<div class="actions"><button type="button" id="jsonExport">Export JSON</button><button type="button" class="secondary" id="csvExport">Export CSV</button><button type="button" class="secondary" id="importButton">Import JSON</button><button type="button" class="danger" id="clearButton">Clear</button><input type="file" id="fileInput" accept=".json,application/json"></div>
+</div>
+<p class="notes">Reviews remain in this browser tab until exported; nothing is uploaded. Avoid entering identifiable clinical data. Import replaces the review for the selected guideline.</p>
+</section>
+<section class="panel" aria-live="polite">
+<h2 id="framework">Loading guideline…</h2><p id="source"></p>
+<div class="summary">
+<div class="stat"><b id="assessed">0 / 0</b><span>Items assessed</span></div>
+<div class="stat"><b id="reported">0</b><span>Reported</span></div>
+<div class="stat"><b id="partial">0</b><span>Partially reported</span></div>
+<div class="stat"><b id="missing">0</b><span>Not reported</span></div>
+</div>
+<p class="notes" id="summaryDetail"></p><progress id="progress" value="0" max="1" aria-label="Assessed items"></progress>
+<p class="notes">Statuses are manual judgments, not a study-quality score. “Not applicable” requires reviewer justification; consult the full guideline and relevant design-specific extensions.</p>
+</section>
+<section class="panel"><h2>Review items</h2><p class="muted">Record a judgment and location (section or page) for each topic. Prompts summarise the numbered main items; they do not replace official subitems.</p><div id="items"></div></section>
+<p id="feedback" role="status"></p>
+<footer>Reference: <a href="https://www.strobe-statement.org/checklists/" target="_blank" rel="noopener noreferrer">STROBE checklists</a> · <a href="https://www.consort-spirit.org/published-statements" target="_blank" rel="noopener noreferrer">CONSORT 2025 statement</a>. Use full wording and applicable extensions for manuscript submission.</footer>
+</main>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const allowedStatuses = ["unassessed", "reported", "partial", "missing", "na"];
+const statusLabels = {unassessed:"Not assessed",reported:"Reported",partial:"Partially reported",missing:"Not reported",na:"Not applicable"};
+const review = {strobe:{manuscript:"",items:{}},consort:{manuscript:"",items:{}}};
+let checklists = null;
+let current = "strobe";
+function notify(message,ok) { $("feedback").textContent = message; $("feedback").className = ok ? "ok" : ""; }
+function validateCatalogue(data) {
+  if (!data || !data.strobe || !data.consort) throw Error("Missing guideline data");
+  for (const key of ["strobe", "consort"]) {
+    const spec = data[key], expected = key === "strobe" ? 22 : 30;
+    if (!Array.isArray(spec.items) || spec.items.length !== expected || new Set(spec.items.map(item => item.id)).size !== expected) throw Error("Invalid guideline items");
+  }
+}
+function emptyItem() { return {status:"unassessed",location:"",notes:""}; }
+function element(tag, cls, content) { const node = document.createElement(tag); if (cls) node.className = cls; if (content !== undefined) node.textContent = content; return node; }
+function render() {
+  const spec = checklists[current];
+  $("framework").textContent = spec.name + " " + spec.version + " — " + spec.design;
+  $("source").replaceChildren(document.createTextNode("Official reference: "));
+  const link = element("a", "", spec.source);
+  link.href = spec.source; link.target = "_blank"; link.rel = "noopener noreferrer";
+  $("source").append(link);
+  $("manuscript").value = review[current].manuscript;
+  const fragment = document.createDocumentFragment();
+  for (const item of spec.items) {
+    const row = element("article", "item");
+    const left = element("div");
+    const title = element("h3", "", item.id + ". " + item.title);
+    const prompt = element("p", "", item.prompt);
+    const details = element("div","details");
+    const locationWrap = element("div");
+    const locationLabel = element("label", "", "Location / page");
+    const location = element("input");
+    location.type = "text"; location.maxLength = 160; location.placeholder = "e.g., Methods p. 4";
+    location.id = "location-" + item.id; locationLabel.htmlFor = location.id;
+    const notesWrap = element("div");
+    const notesLabel = element("label", "", "Reviewer notes");
+    const notes = element("textarea");
+    notes.id = "notes-" + item.id; notes.maxLength = 2000; notes.rows = 2;
+    notesLabel.htmlFor = notes.id; notes.placeholder = "Evidence, deficiency or N/A rationale";
+    const status = element("select");
+    status.id = "status-" + item.id; status.setAttribute("aria-label", "Item " + item.id + " assessment");
+    for(const key of allowedStatuses) {
+      const option = document.createElement("option"); option.value = key; option.textContent = statusLabels[key]; status.append(option);
+    }
+    const state = review[current].items[item.id] || emptyItem();
+    status.value = state.status; location.value = state.location; notes.value = state.notes;
+    status.addEventListener("change", () => { updateItem(item.id,"status",status.value); });
+    location.addEventListener("input", () => { updateItem(item.id,"location",location.value); });
+    notes.addEventListener("input", () => { updateItem(item.id,"notes",notes.value); });
+    locationWrap.append(locationLabel,location);notesWrap.append(notesLabel,notes);
+    details.append(locationWrap,notesWrap);left.append(title,prompt,details);
+    row.append(left,status);fragment.append(row);
+  }
+  $("items").replaceChildren(fragment);
+  updateSummary();
+}
+function updateItem(id, key, value) {
+  const item = review[current].items[id] || emptyItem();
+  item[key] = value; review[current].items[id] = item; updateSummary();
+}
+function updateSummary() {
+  const items = checklists[current].items;
+  const count = {unassessed:0,reported:0,partial:0,missing:0,na:0};
+  for(const spec of items){const item=review[current].items[spec.id] || emptyItem();count[item.status]++;}
+  const assessed = items.length-count.unassessed;
+  $("assessed").textContent = assessed+" / "+items.length;
+  $("reported").textContent = count.reported;
+  $("partial").textContent = count.partial;
+  $("missing").textContent = count.missing;
+  $("summaryDetail").textContent = count.na + " not applicable · " + count.unassessed + " unassessed · " + (count.reported+count.partial+count.missing) + " applicable items reviewed. No weighted quality score is calculated.";
+  $("progress").max = items.length; $("progress").value = assessed;
+}
+function exportData() {
+ return {format:"reporting-checklist-review-v1", guideline:current, version:checklists[current].version, manuscript:review[current].manuscript, items:checklists[current].items.map(spec => ({id:spec.id, title:spec.title, ...emptyItem(), ...review[current].items[spec.id]}))};
+}
+function csvCell(value) {
+ let s=String(value??"");
+ if (/^[\s]*[=+@\-\t\r]/.test(s)) s="'"+s;
+ return '"'+s.replace(/"/g,'""')+'"';
+}
+function download(filename,content,type) {
+ const url=URL.createObjectURL(new Blob([content],{type}));
+ const link=document.createElement("a");link.href=url;link.download=filename;
+ document.body.append(link);link.click();link.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+$("guideline").addEventListener("change", e => {current=e.target.value;render();notify("",true);});
+$("manuscript").addEventListener("input",e=>{review[current].manuscript=e.target.value;});
+$("jsonExport").addEventListener("click",()=>{
+ download(current+"-review.json",JSON.stringify(exportData(),null,2)+"\n","application/json");
+ notify("JSON review exported.",true);
+});
+$("csvExport").addEventListener("click",()=>{
+ const data=exportData(), headers=["guideline","version","manuscript","id","title","status","location","notes"];
+ const lines=[headers.map(csvCell).join(",")];
+ for(const item of data.items){ const row=[data.guideline,data.version,data.manuscript,item.id,item.title,item.status,item.location,item.notes];lines.push(row.map(csvCell).join(","));}
+ download(current+"-review.csv",lines.join("\r\n")+"\r\n","text/csv;charset=utf-8");
+ notify("CSV review exported.",true);
+});
+$("clearButton").addEventListener("click",()=>{
+ if(!confirm("Clear the current guideline review? Unsaved changes will be lost."))return;
+ review[current]={manuscript:"",items:{}};render();notify("Current review cleared.",true);
+});
+$("importButton").addEventListener("click",()=>{$("fileInput").click();});
+$("fileInput").addEventListener("change",async e=>{
+ const file=e.target.files[0];e.target.value="";if(!file)return;
+ try {
+  if(file.size>2*1024*1024) throw Error("JSON file exceeds 2 MB");
+  const imported=JSON.parse(await file.text());
+  if(imported.format!=="reporting-checklist-review-v1") throw Error("Not a checklist review export");
+  if(imported.guideline!==current || imported.version!==checklists[current].version) throw Error("Guideline or version differs from selection");
+  if(!Array.isArray(imported.items)||imported.items.length!==checklists[current].items.length) throw Error("Checklist item count mismatch");
+  if(typeof imported.manuscript!=="string"||imported.manuscript.length>120) throw Error("Invalid manuscript label");
+  const expected=new Set(checklists[current].items.map(item=>item.id)), parsed={};
+  for(const item of imported.items){
+   if(!item||!expected.has(item.id)||parsed[item.id] || !allowedStatuses.includes(item.status))throw Error("Unknown, duplicate or invalid checklist item");
+   if(typeof item.location!=="string"||item.location.length>160||typeof item.notes!=="string"||item.notes.length>2000)throw Error("Invalid item text");
+   parsed[item.id]={status:item.status,location:item.location,notes:item.notes};
+  }
+  if(Object.keys(parsed).length!==expected.size) throw Error("Incomplete checklist");
+  review[current]={manuscript:imported.manuscript,items:parsed};render();notify("Review imported.",true);
+ } catch(err) {notify("Import rejected: "+err.message,false);}
+});
+(async()=>{
+ try{
+  const response=await fetch("./checklists.json",{cache:"no-store"});
+  if(!response.ok)throw Error("Could not load guideline catalogue ("+response.status+")");
+  const data=await response.json();validateCatalogue(data);checklists=data;render();
+ }catch(err){$("framework").textContent="Unable to load review form";$("items").textContent="Open this application from its hosted site or a local web server. "+err.message;notify("Checklist unavailable.",false);}
+})();
+</script>
 </body>
 </html>

@@ -1,183 +1,83 @@
-# Strobe Consort Guideline Auditor
+# STROBE / CONSORT Reporting Checklist Auditor
 
-> **Domain:** Clinical Decision Support & Biomedical Computing
-> **Reference Guidelines & Standards:** STROBE, CONSORT, CAP, CLSI, ISO Standards
+Reviewer-led tracking of manuscript reporting items, with a static browser interface and a Python summary API. Supports **STROBE (22 main items)** for cohort, case-control and cross-sectional studies and **CONSORT 2025 (30 main items)** for randomised trials.
 
-<div align="center">
+The prompts are condensed topic summaries, not the full official wording or subitem checklists. Consult the relevant official guideline and any study-design extension before submission.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB.svg?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688.svg?logo=fastapi&logoColor=white)
-![Audit Trail](https://img.shields.io/badge/Audit-HMAC--SHA256_Tamper--Evident-brightgreen.svg)
-![Zero-PHI Guard](https://img.shields.io/badge/Guard-Zero--PHI_Outbound-blue.svg)
-![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)
+## What it does
 
-</div>
+- Record each numbered reporting item as **Reported**, **Partially reported**, **Not reported**, **Not applicable**, or **Not assessed**.
+- Document manuscript section/page references, supporting evidence and reviewer comments.
+- View descriptive counts of reviewed, missing and unassessed topics, without claiming a validated quality score.
+- Export a review as **JSON** for later editing or **CSV** for spreadsheets; import a prior JSON review of the same guideline/version.
+- Use the same guideline catalogue from Python to create a template, validate an export and report its counts.
+- Run an optional FastAPI server for the browser app and structured JSON summary endpoint.
 
----
+All review information entered in the static interface stays in the active browser tab until you export it. There is **no automatic manuscript processing**, external model inference, server upload, or browser persistence. Avoid entering patient-identifiable information.
 
-## What It Does
+## Use the application
 
-STROBE & CONSORT Statement Compliance Auditor for clinical trial manuscripts. Evaluates observational and randomized clinical trial manuscripts for essential checklist compliance using a multi-agent consensus architecture.
-
-Author: Dr. Abu Suraih Sakhri
-License: MIT
-
----
-
-## Key Features
-
-- **Single & Batch Evaluation**: Process individual cases or bulk CSV datasets
-- **Multi-Agent Consensus**: Three specialized workers (QC Invariant, Safety Escalation, Protocol Conformance) evaluate each task
-- **Zero-PHI Outbound Guard**: Active regex inspection blocking SSNs, MRNs, phone numbers, and patient identifiers
-- **Tamper-Evident HMAC-SHA256 Audit Trail**: Chained, cryptographically signed logs for every evaluation
-- **FastAPI REST API**: OpenAPI 3.1 REST endpoints with `/health` and `/metrics`
-- **Prometheus Telemetry**: Operational metrics exporter
-- **Active Learning Bayesian Calibration**: Dynamic worker reliability weight tracking
-
----
-
-## Installation
+The static interface is in `web/`. From the repository directory:
 
 ```bash
-# Clone the repository
-git clone https://github.com/abusuraihsakhri/strobe-consort-guideline-auditor.git
-cd strobe-consort-guideline-auditor
-
-# Install dependencies
-pip install -r requirements.txt
+python -m http.server 8080 --directory web
 ```
 
----
+Open `http://localhost:8080/`. Pick STROBE or CONSORT 2025, review the numbered prompts, and export JSON before closing or reloading the tab. Importing JSON replaces the current review for the selected guideline, but does not affect the other guideline.
 
-## CLI Usage
+A GitHub Actions workflow is configured to publish `web/` to GitHub Pages after successful tests on `master`. Publication requires Pages to be enabled and the deployment workflow to succeed; the live URL is not claimed until verified.
 
-### 1. Single Case Evaluation
+## Python checklist workflow
+
+Python 3.10 or later is supported for the checklist module; it has no third-party dependencies.
+
 ```bash
-python strobe_consort.py single --v1 10.0 --v2 5.0 --v3 2.0
+python guideline_audit.py template --guideline strobe --manuscript "Cohort draft" --output strobe-review.json
+python guideline_audit.py summary --input strobe-review.json
+python guideline_audit.py template --guideline consort --output consort-review.json
 ```
 
-### 2. Batch CSV Processing
+The `summary` command validates the item IDs, number of items, guideline version, permitted statuses and text lengths before computing counts. It flags not-applicable decisions without a written rationale. No scientific quality or risk-of-bias inference is performed.
+
+## Optional FastAPI server
+
 ```bash
-python strobe_consort.py batch -i sample.csv -o results.csv
-```
-
-### 3. Enterprise CLI (with multi-agent consensus)
-```bash
-# Audit a single task
-python cli.py audit --task-id TASK-001 --primary 28.5 --secondary 14.2
-
-# Batch process
-python cli.py batch -i sample.csv -o results.csv
-
-# Verify audit trail integrity
-python cli.py verify-audit
-
-# Launch REST API server
+python -m pip install -r requirements.txt
 python cli.py serve --host 127.0.0.1 --port 8000
 ```
 
----
+Then open `http://127.0.0.1:8000/`. The relevant API routes are:
 
-## REST API Endpoints
+| Route | Method | Purpose |
+| --- | --- | --- |
+| `/` | GET | Browser review interface |
+| `/checklists.json` | GET | Condensed item catalogue |
+| `/api/checklists` | GET | Catalogue via API |
+| `/api/checklist/summary` | POST | Validate and summarize an exported review JSON |
+| `/health` | GET | Legacy server health endpoint |
 
-| Endpoint | Method | Description |
-|:---------|:-------|:------------|
-| `/health` | GET | Service health check |
-| `/metrics` | GET | Operational metrics |
-| `/api/audit` | POST | Submit task for evaluation |
-| `/api/chat` | POST | Query supervisory chat |
-| `/api/audit/logs` | GET | Retrieve audit trail |
+The older `strobe_consort.py` numerical scoring demo, `cli.py audit/batch/chat` commands, and `/api/audit` endpoint remain for backwards compatibility. **They do not evaluate STROBE or CONSORT items and must not be interpreted as clinical recommendations, guideline compliance assessments, or validated methodological scores.** The older agent modules are not connected to the reporting checklist UI.
 
----
-
-## Input Data Schema
-
-### CSV Batch Input
-| Field | Description | Requirement |
-|:------|:------------|:------------|
-| `Patient_ID` | Patient identifier | Required |
-| `v1` | Primary measurement | Required |
-| `v2` | Secondary measurement | Required |
-| `v3` | Tertiary measurement | Optional |
-
-### API Audit Payload
-```json
-{
-  "task_id": "TASK-2026-001",
-  "target_identifier": "KEY-TARGET-01",
-  "primary_metric": 28.5,
-  "secondary_metric": 14.2,
-  "status_descriptor": "NOMINAL",
-  "is_critical_flag": false
-}
-```
-
----
-
-## Security
-
-- **PHI Protection**: All outbound data is scanned for PHI (MRN, SSN, phone, email, DOB) before logging or transmission
-- **Audit Integrity**: HMAC-SHA256 chained audit trail with tamper detection
-- **Configurable Secret Key**: Set `AUDIT_SECRET_KEY` environment variable for persistent audit integrity
-
-```bash
-export AUDIT_SECRET_KEY="your-secure-key-here"
-```
-
----
+The in-memory HMAC audit trail belongs to the legacy API. Configure `AUDIT_SECRET_KEY` when deploying the legacy service; otherwise the key is generated per process, so signatures are not durable across restarts. `/api/audit/logs` is disabled unless `ENABLE_AUDIT_LOG_ENDPOINT=1` is explicitly set. Its output is not appropriate for untrusted public deployment.
 
 ## Testing
 
 ```bash
-# Run all tests
-pytest -v
-
-# Run specific test modules
-python -m pytest test_strobe_consort.py -v
-python -m pytest tests/ -v
-
-# Run simulation benchmark
-python simulator.py 1000
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+python -m pip check
 ```
 
----
+GitHub Actions runs the Python tests across Python 3.10–3.13 and validates browser JavaScript syntax. The static browser experience uses ordinary JavaScript; **no Pyodide, server-side Python, or external API** is required for GitHub Pages.
 
-## Container Deployment
+## References and limits
 
-```bash
-docker build -t strobe-consort-guideline-auditor .
-docker run -p 8000:8000 -e AUDIT_SECRET_KEY=your-key strobe-consort-guideline-auditor
-```
+- [STROBE official checklists](https://www.strobe-statement.org/checklists/)
+- [CONSORT 2025 statement and publications](https://www.consort-spirit.org/published-statements)
+- [CONSORT 2025 reporting guideline (Hopewell et al.)](https://doi.org/10.1371/journal.pmed.1004587)
 
----
+Reporting completeness is distinct from internal validity, risk of bias, and study quality. Checklists and their extensions should be applied with human methodological judgment. PHI pattern screening in the older API is **heuristic and not a comprehensive de-identification or HIPAA compliance guarantee**. Do not send confidential manuscript or patient data to a publicly exposed instance.
 
-## Project Structure
+## License
 
-```
-strobe-consort-guideline-auditor/
-├── strobe_consort.py          # Core scoring algorithm & batch processor
-├── cli.py                     # Enterprise CLI interface
-├── simulator.py               # High-throughput simulation
-├── enrichment.py              # Enrichment feature engines
-├── requirements.txt           # Python dependencies
-├── Dockerfile                 # Container configuration
-├── sample.csv                 # Example input data
-├── agents/
-│   ├── __init__.py
-│   ├── base.py                # Security, PHI guard, audit trail
-│   ├── models.py              # Pydantic data models
-│   ├── supervisor.py          # Multi-agent orchestrator
-│   ├── workers.py             # Specialized evaluation workers
-│   ├── api.py                 # FastAPI REST endpoints
-│   ├── llm_factory.py         # LLM client factory
-│   ├── metrics.py             # Prometheus metrics collector
-│   ├── learning.py            # Bayesian calibration engine
-│   └── streamer.py            # WebSocket telemetry
-├── tests/
-│   ├── test_enrichment.py
-│   ├── test_strobe_consort_guideline_auditor.py
-│   └── test_security_and_reliability.py
-└── web/
-    └── index.html
-```
+MIT; see [LICENSE](LICENSE).

@@ -1,0 +1,278 @@
+{
+  "strobe": {
+    "name": "STROBE",
+    "version": "2007",
+    "design": "Observational cohort, case-control or cross-sectional studies",
+    "source": "https://www.strobe-statement.org/checklists/",
+    "items": [
+      {
+        "id": "1",
+        "title": "Title/abstract",
+        "prompt": "State the observational study design and summarise the study"
+      },
+      {
+        "id": "2",
+        "title": "Background",
+        "prompt": "Explain the scientific rationale"
+      },
+      {
+        "id": "3",
+        "title": "Objectives",
+        "prompt": "State the objectives and hypotheses"
+      },
+      {
+        "id": "4",
+        "title": "Study design",
+        "prompt": "Describe the design early in the report"
+      },
+      {
+        "id": "5",
+        "title": "Setting",
+        "prompt": "Report setting, locations and dates"
+      },
+      {
+        "id": "6",
+        "title": "Participants",
+        "prompt": "Describe eligibility, selection and relevant matching or follow-up"
+      },
+      {
+        "id": "7",
+        "title": "Variables",
+        "prompt": "Define outcomes, exposures and possible confounders"
+      },
+      {
+        "id": "8",
+        "title": "Data sources",
+        "prompt": "Describe measurement methods and data sources"
+      },
+      {
+        "id": "9",
+        "title": "Bias",
+        "prompt": "Explain how bias was addressed"
+      },
+      {
+        "id": "10",
+        "title": "Study size",
+        "prompt": "Explain the study size"
+      },
+      {
+        "id": "11",
+        "title": "Quantitative variables",
+        "prompt": "Explain handling of continuous variables and groupings"
+      },
+      {
+        "id": "12",
+        "title": "Statistical methods",
+        "prompt": "Describe analyses, missing data, confounding and sensitivity checks"
+      },
+      {
+        "id": "13",
+        "title": "Participant flow",
+        "prompt": "Give numbers at study stages and reasons for nonparticipation"
+      },
+      {
+        "id": "14",
+        "title": "Descriptive data",
+        "prompt": "Describe participant characteristics and missing data"
+      },
+      {
+        "id": "15",
+        "title": "Outcome data",
+        "prompt": "Report outcome events or measures appropriate to the design"
+      },
+      {
+        "id": "16",
+        "title": "Main results",
+        "prompt": "Give effect estimates, precision and adjustment details"
+      },
+      {
+        "id": "17",
+        "title": "Other analyses",
+        "prompt": "Describe subgroup, interaction and sensitivity analyses"
+      },
+      {
+        "id": "18",
+        "title": "Key results",
+        "prompt": "Relate key results to objectives"
+      },
+      {
+        "id": "19",
+        "title": "Limitations",
+        "prompt": "Discuss potential bias and imprecision"
+      },
+      {
+        "id": "20",
+        "title": "Interpretation",
+        "prompt": "Interpret findings cautiously"
+      },
+      {
+        "id": "21",
+        "title": "Generalisability",
+        "prompt": "Discuss external validity"
+      },
+      {
+        "id": "22",
+        "title": "Funding",
+        "prompt": "Describe funding sources and funder roles"
+      }
+    ]
+  },
+  "consort": {
+    "name": "CONSORT",
+    "version": "2025",
+    "design": "Randomised trials",
+    "source": "https://www.consort-spirit.org/published-statements",
+    "items": [
+      {
+        "id": "1",
+        "title": "Title/abstract",
+        "prompt": "Identify the report as a randomised trial and summarise it"
+      },
+      {
+        "id": "2",
+        "title": "Registration",
+        "prompt": "Provide registry, identifier and registration date"
+      },
+      {
+        "id": "3",
+        "title": "Protocol and analysis plan",
+        "prompt": "Tell readers where to access protocol and analysis plan"
+      },
+      {
+        "id": "4",
+        "title": "Data sharing",
+        "prompt": "Describe accessibility of de-identified data, code and materials"
+      },
+      {
+        "id": "5",
+        "title": "Funding/conflicts",
+        "prompt": "Disclose support, funder roles and conflicts of interest"
+      },
+      {
+        "id": "6",
+        "title": "Background",
+        "prompt": "Explain scientific rationale"
+      },
+      {
+        "id": "7",
+        "title": "Objectives",
+        "prompt": "Specify trial objectives and hypotheses"
+      },
+      {
+        "id": "8",
+        "title": "Patient/public involvement",
+        "prompt": "Describe involvement in design, conduct or reporting"
+      },
+      {
+        "id": "9",
+        "title": "Trial design",
+        "prompt": "Describe design and allocation ratio"
+      },
+      {
+        "id": "10",
+        "title": "Trial changes",
+        "prompt": "Report important post-start changes and deviations"
+      },
+      {
+        "id": "11",
+        "title": "Setting",
+        "prompt": "Describe trial setting and locations"
+      },
+      {
+        "id": "12",
+        "title": "Eligibility",
+        "prompt": "Specify participant and, where relevant, site/provider criteria"
+      },
+      {
+        "id": "13",
+        "title": "Interventions",
+        "prompt": "Describe interventions and comparators for replication"
+      },
+      {
+        "id": "14",
+        "title": "Outcomes",
+        "prompt": "Define and explain measurement of outcomes"
+      },
+      {
+        "id": "15",
+        "title": "Harms assessment",
+        "prompt": "Explain how unintended effects were assessed"
+      },
+      {
+        "id": "16",
+        "title": "Sample size",
+        "prompt": "Explain sample-size assumptions, interim analyses and any stopping rules"
+      },
+      {
+        "id": "17",
+        "title": "Random sequence",
+        "prompt": "Describe random sequence generation, randomisation type and restrictions"
+      },
+      {
+        "id": "18",
+        "title": "Allocation concealment",
+        "prompt": "Describe concealment mechanism"
+      },
+      {
+        "id": "19",
+        "title": "Randomisation implementation",
+        "prompt": "State whether staff enrolling or assigning participants could access the allocation sequence"
+      },
+      {
+        "id": "20",
+        "title": "Blinding",
+        "prompt": "Report who was blinded and how"
+      },
+      {
+        "id": "21",
+        "title": "Statistical methods",
+        "prompt": "Describe analysis populations, models and handling of missing data"
+      },
+      {
+        "id": "22",
+        "title": "Participant flow",
+        "prompt": "Give per-group randomised, treated, analysed and post-randomisation exclusions"
+      },
+      {
+        "id": "23",
+        "title": "Recruitment",
+        "prompt": "Give recruitment and follow-up dates and trial stopping details"
+      },
+      {
+        "id": "24",
+        "title": "Intervention delivery",
+        "prompt": "Describe actual treatment delivery and concomitant care"
+      },
+      {
+        "id": "25",
+        "title": "Baseline data",
+        "prompt": "Describe baseline characteristics by group"
+      },
+      {
+        "id": "26",
+        "title": "Outcome results",
+        "prompt": "Report per-group outcome denominators, estimates, precision and absolute/relative effects as appropriate"
+      },
+      {
+        "id": "27",
+        "title": "Harms",
+        "prompt": "Report harms and other unintended effects by group"
+      },
+      {
+        "id": "28",
+        "title": "Other analyses",
+        "prompt": "Present additional and subgroup analyses"
+      },
+      {
+        "id": "29",
+        "title": "Interpretation",
+        "prompt": "Interpret trial findings considering benefits, harms and prior evidence"
+      },
+      {
+        "id": "30",
+        "title": "Limitations",
+        "prompt": "Discuss bias, imprecision, generalisability and multiplicity of analyses"
+      }
+    ]
+  }
+}

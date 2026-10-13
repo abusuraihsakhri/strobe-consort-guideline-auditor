@@ -10,7 +10,10 @@ class MockLLM:
 
     def invoke(self, prompt: str) -> str:
         PHIGuard.assert_no_phi(prompt)
-        return f"[{self.system_name} Deterministic Verification Engine]: Clinical & scientific analysis verified for query: '{prompt[:60]}...'. Parameters evaluated under CAP / CLSI / ISO Standards."
+        return (
+            "No external language model or automated scientific verification is configured. "
+            "Use the structured STROBE/CONSORT checklist and assess each item against the manuscript."
+        )
 
 
 class LLMFactory:

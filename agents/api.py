@@ -2,8 +2,13 @@
 FastAPI REST API Server for Strobe Consort Guideline Auditor.
 """
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+import os
+from typing import Any
+from guideline_audit import summarize_review, load_catalogue
 from pydantic import BaseModel
-from .base import AuditLogger, PHIGuard
+from .base import AuditLogger, PHIGuard, SecurityException
 from .models import SystemTaskPayload
 from .supervisor import SystemSupervisor
 
@@ -36,7 +41,10 @@ def metrics():
 
 @app.post("/api/audit")
 def api_audit(payload: SystemTaskPayload):
-    dossier = supervisor.process_task(payload)
+    try:
+        dossier = supervisor.process_task(payload)
+    except SecurityException as exc:
+        raise HTTPException(status_code=422, detail="Input contains a blocked identifier") from exc
     return dossier.to_dict()
 
 
@@ -45,10 +53,30 @@ def api_chat(req: ChatRequest):
     try:
         ans = supervisor.query_supervisory_chat(req.query)
         return {"response": ans}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    except SecurityException as exc:
+        raise HTTPException(status_code=422, detail="Input contains a blocked identifier") from exc
 
 
 @app.get("/api/audit/logs")
 def api_audit_logs():
+    if os.getenv("ENABLE_AUDIT_LOG_ENDPOINT") != "1":
+        raise HTTPException(status_code=403, detail="Audit logs endpoint disabled")
     return {"audit_trail": AuditLogger.get_trail(), "verified": AuditLogger.verify_integrity()}
+
+
+@app.get("/api/checklists")
+def api_checklists():
+    """Metadata and condensed review prompts; not the full official checklists."""
+    return load_catalogue()
+
+
+@app.post("/api/checklist/summary")
+def api_checklist_summary(review: dict[str, Any]):
+    try:
+        return summarize_review(review)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+# Static assets are served last, after the REST routes above.
+app.mount("/", StaticFiles(directory=str(Path(__file__).resolve().parent.parent / "web"), html=True), name="web")
