@@ -69,7 +69,7 @@ def summarize_review(review: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("Unknown or duplicate checklist item")
         seen.add(key)
         status = item.get("status")
-        if status not in STATUSES:
+        if not isinstance(status, str) or status not in STATUSES:
             raise ValueError(f"Invalid item status for {key}")
         for field, maximum in (("location", 160), ("notes", 2000)):
             value = item.get(field)
