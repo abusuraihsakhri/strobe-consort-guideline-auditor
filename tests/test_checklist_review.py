@@ -97,3 +97,19 @@ def test_review_assets_present():
     assert 'id="csvExport"' in html
     assert './checklists.json' in html
     assert "DOSSIER-SIM" not in html
+
+
+@pytest.mark.parametrize("value,expected", [
+    ("true", True), ("TRUE", True), ("1", True), ("yes", True),
+    ("false", False), ("FALSE", False), ("0", False), ("no", False),
+    ("", False), (None, False),
+])
+def test_legacy_csv_boolean(value, expected):
+    from cli import parse_csv_boolean
+    assert parse_csv_boolean(value) is expected
+
+
+def test_legacy_csv_boolean_rejects_unknown():
+    from cli import parse_csv_boolean
+    with pytest.raises(ValueError):
+        parse_csv_boolean("perhaps")
