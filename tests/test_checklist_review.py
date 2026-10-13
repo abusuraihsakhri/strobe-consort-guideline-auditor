@@ -46,6 +46,7 @@ def test_blank_review_and_summary(guideline, count):
     lambda data: data["items"].append(data["items"][0].copy()),
     lambda data: data["items"][0].update(id="999"),
     lambda data: data["items"][0].update(status="perfect"),
+    lambda data: data["items"][0].update(status=["reported"]),
     lambda data: data["items"][0].update(notes="x" * 2001),
     lambda data: data["items"][0].update(location=42),
 ])
